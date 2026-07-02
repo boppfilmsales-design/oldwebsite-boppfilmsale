@@ -11,6 +11,290 @@
   <script src="assets/nav.js"></script>
   <style>
     .products-container {
+
+
+  
+  
+  
+  Product Catalog | AEC GROUP
+  
+  
+  
+  
+  
+  
+    .catalog-sec { padding: 40px 0 80px; background: var(--gray-50); }
+    .catalog-layout { display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
+    
+    /* Sidebar / Filters */
+    .sidebar { background: white; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--gray-200); height: fit-content; position: sticky; top: 120px; }
+    .filter-group { margin-bottom: 24px; }
+    .filter-title { font-size: .95rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; border-bottom: 2px solid var(--gray-100); padding-bottom: 6px; }
+    .filter-list { display: flex; flex-direction: column; gap: 8px; }
+    .filter-btn {
+      display: flex; align-items: center; justify-content: space-between; padding: 8px 12px;
+      border-radius: var(--radius-sm); font-size: .85rem; font-weight: 500; color: var(--gray-700);
+      background: transparent; border: none; cursor: pointer; text-align: left; transition: var(--transition);
+    }
+    .filter-btn:hover { background: var(--gray-50); color: var(--accent); }
+    .filter-btn.active { background: rgba(26,111,206,.08); color: var(--accent); font-weight: 600; }
+    .filter-btn .count { font-size: .75rem; background: var(--gray-200); padding: 2px 6px; border-radius: 20px; color: var(--gray-500); }
+    .filter-btn.active .count { background: var(--accent); color: white; }
+
+    /* Search Bar */
+    .search-box { display: flex; gap: 12px; margin-bottom: 30px; background: white; padding: 8px; border-radius: 50px; border: 1.5px solid var(--gray-200); box-shadow: var(--shadow-sm); }
+    .search-box input { flex: 1; border: none; outline: none; padding-left: 16px; font-size: .92rem; font-family: inherit; }
+    .search-box button { background: var(--accent); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
+    .search-box button:hover { background: #0056b3; }
+
+    /* Product Grid & Cards */
+    .p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .p-card {
+      background: white; border-radius: var(--radius-md); border: 1px solid var(--gray-200);
+      overflow: hidden; display: flex; flex-direction: column; transition: var(--transition);
+      box-shadow: var(--shadow-sm); height: 100%;
+    }
+    .p-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: var(--shadow-lg); }
+    .p-img-wrap { height: 180px; background: var(--gray-100); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .p-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .p-tag { position: absolute; top: 12px; left: 12px; background: rgba(10,37,64,.85); color: white; font-size: .7rem; font-weight: 600; padding: 4px 10px; border-radius: 50px; backdrop-filter: blur(4px); }
+    .p-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .p-code { font-size: .75rem; color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
+    .p-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; line-height: 1.4; min-height: 2.8em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .p-desc { font-size: .82rem; color: var(--gray-500); line-height: 1.5; margin-bottom: 16px; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .p-footer { border-top: 1px solid var(--gray-100); padding-top: 14px; display: flex; align-items: center; justify-content: space-between; }
+    .p-link { font-size: .82rem; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 4px; }
+    .p-link:hover { gap: 8px; }
+
+    /* Pagination */
+    .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+    .page-num { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: center; font-size: .9rem; font-weight: 600; color: var(--gray-700); background: white; cursor: pointer; transition: var(--transition); }
+    .page-num:hover, .page-num.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    @media (max-width: 992px) {
+      .catalog-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  
+
+
+
+
+
+
+
+  
+    
+       Industrial Catalog
+       工业目录
+      Explore Our Product Range
+      探索我们的产品序列
+    
+
+    
+    
+      
+      
+    
+
+    
+      
+      
+        
+          Categories
+          产品大类
+          
+            
+          
+        
+      
+
+      
+      
+        
+          
+        
+
+        
+        
+          
+        
+      
+    
+  
+
+
+
+
+
+  let filteredProducts = [];
+  let currentPage = 1;
+  const itemsPerPage = 9;
+  let activeCategory = "all";
+
+  // Function to load and render products
+  function initCatalog() {
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('category');
+    if (catParam) activeCategory = catParam;
+
+    renderFilters();
+    filterAndRender();
+  }
+
+  // Populate sidebar category list with counts
+  function renderFilters() {
+    const filterContainer = document.getElementById("categoryFilter");
+    if (!filterContainer) return;
+
+    // Calculate counts
+    const counts = {};
+    window.AEC_PRODUCTS.forEach(p => {
+      const cat = p.category_en;
+      counts[cat] = (counts[cat] || 0) + 1;
+    });
+
+    let html = `
+      
+        All Materials
+        所有物料
+        ${window.AEC_PRODUCTS.length}
+      
+    `;
+
+    Object.keys(counts).sort().forEach(cat => {
+      const cat_zh = window.AEC_PRODUCTS.find(p => p.category_en === cat).category_zh;
+      html += `
+        
+          ${cat}
+          ${cat_zh}
+          ${counts[cat]}
+        
+      `;
+    });
+
+    filterContainer.innerHTML = html;
+  }
+
+  function selectCategory(cat) {
+    activeCategory = cat;
+    currentPage = 1;
+    
+    // Update URL without reloading
+    const url = new URL(window.location);
+    if (cat === 'all') url.searchParams.delete('category');
+    else url.searchParams.set('category', cat);
+    window.history.pushState({}, '', url);
+
+    renderFilters();
+    filterAndRender();
+  }
+
+  function handleSearch() {
+    currentPage = 1;
+    filterAndRender();
+  }
+
+  document.getElementById("searchInput").addEventListener("keyup", (e) => {
+    if (e.key === "Enter") handleSearch();
+    else filterAndRender(); // Real-time filtering
+  });
+
+  function filterAndRender() {
+    const query = document.getElementById("searchInput").value.toLowerCase().trim();
+    
+    filteredProducts = window.AEC_PRODUCTS.filter(p => {
+      const matchCat = (activeCategory === 'all' || p.category_en === activeCategory);
+      const matchQuery = !query || 
+                         p.name_en.toLowerCase().includes(query) || 
+                         p.item_code.toLowerCase().includes(query) || 
+                         p.details_en.toLowerCase().includes(query);
+      return matchCat && matchQuery;
+    });
+
+    renderGrid();
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById("productGrid");
+    if (!grid) return;
+
+    if (filteredProducts.length === 0) {
+      grid.innerHTML = `
+        
+          
+          No products match your search/filter criteria.
+          未找到符合您搜索条件的产品。
+        
+      `;
+      document.getElementById("pagination").innerHTML = "";
+      return;
+    }
+
+    // Paginate
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const paginated = filteredProducts.slice(startIdx, startIdx + itemsPerPage);
+
+    let html = "";
+    paginated.forEach(p => {
+      html += `
+        
+          
+            
+            AEC
+          
+          
+            ${p.item_code}
+            ${p.name_en}
+            ${p.details_en}
+            
+              
+                Specifications 
+                技术参数 
+              
+            
+          
+        
+      `;
+    });
+    grid.innerHTML = html;
+
+    renderPagination();
+    
+    // Update newly inserted dynamic language targets
+    const currentLang = localStorage.getItem("aec_lang") || "en";
+    document.documentElement.setAttribute("lang", currentLang);
+  }
+
+  function renderPagination() {
+    const container = document.getElementById("pagination");
+    if (!container) return;
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    if (totalPages ${i}
+      `;
+    }
+    container.innerHTML = html;
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    renderGrid();
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  }
+
+  // Hook into language change events to refresh dynamically loaded content language
+  window.addEventListener("langchange", (e) => {
+    // Standard elements handled by global selectors, custom dynamically inserted elements also updated:
+    document.querySelectorAll(".lang-en, .lang-zh").forEach(el => el.style.display = "");
+  });
+
+  // Load on start
+  document.addEventListener("DOMContentLoaded", initCatalog);
+
+
+
+
       display: flex;
       gap: 30px;
       padding: 50px 0;
