@@ -1,4 +1,394 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title class="lang-en">High-Quality Industrial Film & Packaging Materials | AEC GROUP</title>
+  <title class="lang-zh" style="display:none;">优质工业薄膜与包装材料 | 东渐集团</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/nav.js"></script>
+  <style>
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #0d3b6e 100%);
+      color: white;
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(26,111,206,.25) 0%, transparent 60%);
+    }
+    .hero h2 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,.8);
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--primary);
+      box-shadow: 0 4px 18px rgba(212,160,23,.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212,160,23,.5);
+    }
+    .btn-outline {
+      background: rgba(255,255,255,.1);
+      color: white;
+      border-color: rgba(255,255,255,.3);
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.6);
+      transform: translateY(-2px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: -50px;
+      position: relative;
+      z-index: 10;
+    }
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-xl);
+    }
+    .stat-card .num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-card .label {
+      font-size: .9rem;
+      color: var(--gray-500);
+      margin-top: 5px;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .cat-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      transition: var(--transition);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .cat-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-5px);
+    }
+    .cat-card .icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(26,111,206,.08);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .cat-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .cat-card p {
+      font-size: .9rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .cat-card .link {
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .cat-card:hover .link {
+      gap: 10px;
+    }
+
+    .why-us {
+      background: var(--gray-50);
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .why-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 30px 24px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .why-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .why-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .why-card h3 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .why-card p {
+      font-size: .85rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--accent) 0%, #0056b3 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 0;
+    }
+    .cta h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .cta p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); margin-top: -30px; }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h2 class="lang-en">Global Supplier of Packaging Films <br>&amp; Industrial Materials</h2>
+      <h2 class="lang-zh" style="display:none;">全球软包装薄膜<br>&amp; 工业原材料优质供应商</h2>
+      <p class="lang-en">Anhui Eastern Progress Import &amp; Export Co., Ltd (AEC GROUP) delivers top-tier BOPP, BOPET, POF films, thermal ribbons, labels, and machinery solutions to over 80 countries.</p>
+      <p class="lang-zh" style="display:none;">安徽东渐进出口有限公司 (AEC GROUP) 专业为全球80多个国家提供高品质 BOPP、BOPET、POF 薄膜、热转印碳带、标签及包装机械设备解决方案。</p>
+      <div class="hero-buttons">
+        <a href="products.html" class="btn btn-primary"><i class="fas fa-cubes"></i> <span class="lang-en">Explore Products</span><span class="lang-zh">浏览产品</span></a>
+        <a href="contact.html" class="btn btn-outline"><i class="fas fa-envelope"></i> <span class="lang-en">Get a Quote</span><span class="lang-zh">获取报价</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section style="padding: 0 0 50px 0;">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="num">14+</div>
+          <div class="label lang-en">Years of Experience</div>
+          <div class="label lang-zh" style="display:none;">载行业经验</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">80+</div>
+          <div class="label lang-en">Export Countries</div>
+          <div class="label lang-zh" style="display:none;">出口国家及地区</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">200+</div>
+          <div class="label lang-en">Happy Clients</div>
+          <div class="label lang-zh" style="display:none;">长期合作伙伴</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">100%</div>
+          <div class="label lang-en">Quality Guaranteed</div>
+          <div class="label lang-zh" style="display:none;">品质服务保证</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT CATEGORIES -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-layer-group"></i> <span class="lang-en">Our Catalog</span><span class="lang-zh">产品系列</span></span>
+        <h2 class="section-title lang-en">Premium Product Categories</h2>
+        <h2 class="section-title lang-zh" style="display:none;">多元核心产品类别</h2>
+        <p class="section-desc lang-en">We provide a highly diversified catalog covering raw materials, processed films, office supplies, and automation machines.</p>
+        <p class="section-desc lang-zh" style="display:none;">我们提供高度多元化的产品组合，涵盖原材料、深加工薄膜、办公耗材及自动化包装机械设备。</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="window.location.href='products.html?cat=bopp'">
+          <div class="icon"><i class="fas fa-film"></i></div>
+          <h3>BOPP Film</h3>
+          <p class="lang-en">Biaxially Oriented Polypropylene films including plain, thermal, matte, metallized, and pearlized films.</p>
+          <p class="lang-zh" style="display:none;">双向拉伸聚丙烯薄膜，涵盖平膜、热覆膜、消光膜、镀铝膜及珠光膜等全系列。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="cat-card" onclick="window.location.href='products.html?cat=bopet'">
+          <div class="icon"><i class="fas fa-layer-group"></i></div>
+          <h3>BOPET Film</h3>
+          <p class="lang-en">Premium polyester films outstanding for electrical insulation, capacitors, and multi-color printing composite base.</p>
+          <p class="lang-zh" style="display:none;">高档双向拉伸聚酯薄膜，具有出色的电绝缘、耐热性，适合电容介质及多色套印基膜。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="cat-card" onclick="window.location.href='products.html?cat=tape'">
+          <div class="icon"><i class="fas fa-tape"></i></div>
+          <h3>Adhesive Tape &amp; Glue</h3>
+          <p class="lang-en">Packing tapes jumbo rolls, masking tape, double-sided tapes, and acrylic coating glues.</p>
+          <p class="lang-zh" style="display:none;">BOPP胶带母卷、美纹纸胶带、高粘双面胶带，及各种涂布用化工胶水树脂。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="cat-card" onclick="window.location.href='products.html?cat=consumables'">
+          <div class="icon"><i class="fas fa-print"></i></div>
+          <h3>Ribbons &amp; Labels</h3>
+          <p class="lang-en">High quality thermal transfer ribbons, self-adhesive barcode labels, and tear tapes.</p>
+          <p class="lang-zh" style="display:none;">高清晰度热转印碳带、不干胶条码标签纸、及香烟包装防伪拆封拉线。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="cat-card" onclick="window.location.href='products.html?cat=machinery'">
+          <div class="icon"><i class="fas fa-cog"></i></div>
+          <h3>Packaging Machinery</h3>
+          <p class="lang-en">Industrial slitting machines, high-speed coating machines, laminating units, and shrinking equipment.</p>
+          <p class="lang-zh" style="display:none;">工业用高精密薄膜分切机、复卷机、涂胶涂布机、淋膜机及自动化热收缩包装机设备。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="cat-card" onclick="window.location.href='products.html?cat=solar'">
+          <div class="icon"><i class="fas fa-solar-panel"></i></div>
+          <h3>Solar Panels</h3>
+          <p class="lang-en">High-efficiency monocrystalline and bifacial double-glass solar panels for clean energy applications.</p>
+          <p class="lang-zh" style="display:none;">高效单晶硅及双面双玻光伏组件太阳能电池板，助力绿色环保及清洁能源转型。</p>
+          <span class="link"><span class="lang-en">View Category</span><span class="lang-zh">浏览分类</span> <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-star"></i> <span class="lang-en">Our Strength</span><span class="lang-zh">企业优势</span></span>
+        <h2 class="section-title lang-en">Why Partner with AEC GROUP</h2>
+        <h2 class="section-title lang-zh" style="display:none;">为什么选择东渐集团</h2>
+        <p class="section-desc lang-en">We combine professional trading expertise with strict quality standards and customized industrial services.</p>
+        <p class="section-desc lang-zh" style="display:none;">我们将专业的全球贸易知识与严苛的质量标准、高度定制化的工业服务完美结合。</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="icon">🏆</div>
+          <h3 class="lang-en">14-Year Reputation</h3>
+          <h3 class="lang-zh" style="display:none;">14年行业积淀</h3>
+          <p class="lang-en">Since 2011, establishing premium customer networks across Europe, Asia, Americas, and Africa.</p>
+          <p class="lang-zh" style="display:none;">自2011年起步，在包装薄膜领域深耕14载，商业信用优异，海内外美誉度高。</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">🎯</div>
+          <h3 class="lang-en">Strict Quality QA</h3>
+          <h3 class="lang-zh" style="display:none;">严苛质检管理</h3>
+          <p class="lang-en">All export materials undergo rigorous testing to meet international standard certificates.</p>
+          <p class="lang-zh" style="display:none;">所有出口原材料及深加工产品均通过严苛实验室测试，符合国际通用环保与物理指标标准。</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">🚀</div>
+          <h3 class="lang-en">Fast Delivery</h3>
+          <h3 class="lang-zh" style="display:none;">极速响应物流</h3>
+          <p class="lang-en">Rapid order processing, customized slit widths, and efficient maritime shipment logistics.</p>
+          <p class="lang-zh" style="display:none;">快捷的一站式拼箱、整柜订舱服务，专业的理货及快速的样品寄送通道。</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">🤝</div>
+          <h3 class="lang-en">Professional Team</h3>
+          <h3 class="lang-zh" style="display:none;">精英外贸团队</h3>
+          <p class="lang-en">English, French, Russian and Spanish technical consultation, supporting multi-currency payments.</p>
+          <p class="lang-zh" style="display:none;">多语种业务经理24小时在线解答，为您提供专业而贴心的产品定制与进出口贸易方案。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2 class="lang-en">Ready to Expand Your Business?</h2>
+      <h2 class="lang-zh" style="display:none;">准备好开启深度合作了吗？</h2>
+      <p class="lang-en">Request catalog samples, customize your technical roll width, and receive instant wholesale pricing quotes.</p>
+      <p class="lang-zh" style="display:none;">申请各材质薄膜样品册、定制特殊宽幅及获取极具竞争力的全球离岸/到岸批发报价。</p>
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap">
+        <a href="contact.html" class="btn btn-primary" style="background:white; color:var(--accent);"><span class="lang-en">Contact Us</span><span class="lang-zh">联系我们</span></a>
+        <a href="products.html" class="btn btn-outline"><span class="lang-en">View Products</span><span class="lang-zh">查看产品</span></a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html> <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
