@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title class="lang-en">Contact Us | AEC GROUP</title>
+  <title class="lang-zh" style="display:none;">联系我们 | 东渐集团</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/nav.js"></script>
+  <style>
+    .contact-section {
+      padding: 60px 0;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .contact-info p.sub {
+      color: var(--gray-500);
+      margin-bottom: 30px;
+    }
+    .contact-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-item-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .contact-item-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .contact-item-card .icon-wrap {
+      width: 44px;
+      height: 44px;
+      background: rgba(26,111,206,.08);
+      color: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-item-card .details label {
+      font-size: .75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gray-500);
+      letter-spacing: .05em;
+    }
+    .contact-item-card .details p {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 2px;
+    }
+
+    /* Form */
+    .contact-form-box {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+    }
+    .contact-form-box h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: .92rem;
+      font-family: inherit;
+      color: var(--gray-900);
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,111,206,.1);
+      background: white;
+    }
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(26,111,206,.35);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(26,111,206,.45);
+    }
+
+    /* Map placeholder */
+    .map-box {
+      height: 350px;
+      background: var(--gray-100);
+      border-radius: var(--radius-lg);
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      border: 1px solid var(--gray-200);
+    }
+    .map-box p {
+      color: var(--gray-500);
+      font-size: .9rem;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTACT GRID -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        
+        <!-- INFO -->
+        <div class="contact-info">
+          <h3 class="lang-en">Anhui Eastern Progress Import &amp; Export Co., Ltd</h3>
+          <h3 class="lang-zh" style="display:none;">安徽东渐进出口有限公司</h3>
+          <p class="sub lang-en">Reach out for sample requests, roll customization and corporate bulk wholesale quotes.</p>
+          <p class="sub lang-zh" style="display:none;">如有样品申请、宽幅卷径定制或大宗进出口批发报价需求，请随时与我们联系。</p>
+          
+          <div class="contact-card-list">
+            <div class="contact-item-card">
+              <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="details">
+                <span class="lang-en">Office Address</span>
+                <span class="lang-zh" style="display:none;">公司地址</span>
+                <p class="lang-en">Ginkgo Plaza (opposite to USTC South Campus), No.1158 Huizhou Avenue, Baohe District, Hefei, Anhui Province, China. Zip: 230031</p>
+                <p class="lang-zh" style="display:none;">安徽省合肥市包河区徽州大道1158号银杏大厦 (中国科学技术大学南校区对面) 邮编：230031</p>
+              </div>
+            </div>
+            
+            <div class="contact-item-card">
+              <div class="icon-wrap"><i class="fas fa-phone-alt"></i></div>
+              <div class="details">
+                <span class="lang-en">Phone &amp; Fax</span>
+                <span class="lang-zh" style="display:none;">联系电话 &amp; 传真</span>
+                <p>+86-551-64687285 | Fax: +86-551-64683490</p>
+                <p style="font-size: 0.85rem; color:var(--gray-500); font-weight: normal; margin-top:2px;">Mobile/WeChat (杨经理): +86-18919659471</p>
+              </div>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="icon-wrap"><i class="fas fa-envelope"></i></div>
+              <div class="details">
+                <span class="lang-en">E-mail Address</span>
+                <span class="lang-zh" style="display:none;">电子邮箱</span>
+                <p>sale@boppfilmsale.com</p>
+                <p style="font-size: 0.85rem; color:var(--gray-500); font-weight: normal; margin-top:2px;">Alternative: boppfilmsale@hotmail.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="icon-wrap"><i class="fab fa-skype"></i></div>
+              <div class="details">
+                <span class="lang-en">Instant Messengers</span>
+                <span class="lang-zh" style="display:none;">即时通讯</span>
+                <p>Skype: boppfilmsales | QQ: 2538474128</p>
+                <p style="font-size: 0.85rem; color:var(--gray-500); font-weight: normal; margin-top:2px;">Teams: boppfilmsale</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="contact-form-box">
+          <h3 class="lang-en"><i class="fas fa-paper-plane" style="color:var(--accent)"></i> Send Inquiry</h3>
+          <h3 class="lang-zh" style="display:none;"><i class="fas fa-paper-plane" style="color:var(--accent)"></i> 在线发送询盘</h3>
+          <form onsubmit="sendEmail(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="lang-en">Full Name *</label>
+                <label class="lang-zh" style="display:none;">您的姓名 *</label>
+                <input type="text" id="cname" required placeholder="John Doe" />
+              </div>
+              <div class="form-group">
+                <label class="lang-en">Company Name</label>
+                <label class="lang-zh" style="display:none;">公司名称</label>
+                <input type="text" id="ccompany" placeholder="Global Trade Inc." />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="lang-en">Email Address *</label>
+                <label class="lang-zh" style="display:none;">电子邮件 *</label>
+                <input type="email" id="cemail" required placeholder="john@company.com" />
+              </div>
+              <div class="form-group">
+                <label class="lang-en">Phone Number</label>
+                <label class="lang-zh" style="display:none;">联系电话</label>
+                <input type="tel" id="cphone" placeholder="+1 ..." />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="lang-en">Product of Interest</label>
+              <label class="lang-zh" style="display:none;">感兴趣的产品类别</label>
+              <select id="cproduct">
+                <option value="">Please Select Category / 请选择产品类别</option>
+                <option value="BOPP Film">BOPP Film / BOPP聚丙烯薄膜</option>
+                <option value="BOPET Film">BOPET Film / BOPET聚酯薄膜</option>
+                <option value="Adhesive Tapes">Adhesive Tapes &amp; Glue / 胶粘带与胶水</option>
+                <option value="Coated Films">Coated Films / 涂布膜</option>
+                <option value="Ribbons &amp; Labels">Ribbons &amp; Labels / 碳带与标签</option>
+                <option value="PE/PVC/POF">PE/PVC/POF Film &amp; Bags / 收缩包装与塑料袋</option>
+                <option value="Packaging Machinery">Packaging Machinery / 包装机械设备</option>
+                <option value="Solar Panels">Solar Panels / 光伏太阳能电池板</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="lang-en">Message Body *</label>
+              <label class="lang-zh" style="display:none;">询盘详情 *</label>
+              <textarea id="cmessage" required placeholder="Please describe your detailed requirements (dimensions, thickness, quantity, destination port)..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">
+              <i class="fas fa-paper-plane"></i>
+              <span class="lang-en">Submit Inquiry</span>
+              <span class="lang-zh" style="display:none;">提交询盘</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- MAP -->
+      <div class="map-box">
+        <i class="fas fa-map-marked-alt" style="font-size: 3.5rem"></i>
+        <p class="lang-en" style="font-weight:600; color:var(--primary); margin-top:15px">📍 No.1158 Huizhou Avenue, Baohe District, Hefei, Anhui Province, China</p>
+        <p class="lang-zh" style="display:none; font-weight:600; color:var(--primary); margin-top:15px">📍 安徽省合肥市包河区徽州大道1158号银杏大厦 (中科大南校区对面)</p>
+        <p class="lang-en">Ginkgo Plaza — Conveniently linked to Shanghai and Ningbo Maritime Ports.</p>
+        <p class="lang-zh" style="display:none;">银杏大厦 —— 紧邻中国科学技术大学，地理位置优良，高效直连上海、宁波海运港口。</p>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    function sendEmail(e) {
+      e.preventDefault();
+      const name = document.getElementById('cname').value;
+      const email = document.getElementById('cemail').value;
+      const company = document.getElementById('ccompany').value;
+      const product = document.getElementById('cproduct').value;
+      const message = document.getElementById('cmessage').value;
+      
+      const subject = encodeURIComponent(`Web Inquiry from ${name} (Company: ${company})`);
+      const body = encodeURIComponent(`Sender: ${name}
+Email: ${email}
+Company: ${company}
+Product Category: ${product}
+
+Message:
+${message}`);
+      
+      window.location.href = `mailto:sale@boppfilmsale.com?subject=${subject}&body=${body}`;
+    }
+  </script>
+
+</body>
+</html>
