@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title class="lang-en">Product Center | AEC GROUP</title>
+  <title class="lang-zh" style="display:none;">产品中心 | 东渐集团</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/nav.js"></script>
+  <style>
+    .products-container {
+      display: flex;
+      gap: 30px;
+      padding: 50px 0;
+    }
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+    }
+    .sidebar-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 100px;
+    }
+    .sidebar-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--gray-100);
+      padding-bottom: 8px;
+    }
+    .filter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .filter-item {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .filter-item:hover, .filter-item.active {
+      background: rgba(26,111,206,.06);
+      color: var(--accent);
+    }
+    .filter-item .count {
+      background: var(--gray-100);
+      color: var(--gray-500);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .filter-item.active .count {
+      background: var(--accent);
+      color: white;
+    }
+
+    .products-main {
+      flex: 1;
+    }
+    .search-bar-wrap {
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 14px 20px 14px 50px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: .95rem;
+      outline: none;
+      transition: var(--transition);
+      background: var(--gray-50);
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,111,206,.1);
+      background: white;
+    }
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-500);
+      font-size: 1.1rem;
+    }
+
+    .p-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .p-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .p-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+    .p-img-box {
+      height: 140px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      position: relative;
+    }
+    .p-img-box .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(4px);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .p-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .p-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .p-code {
+      font-size: .78rem;
+      color: var(--gray-500);
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .p-desc {
+      font-size: .85rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .p-action {
+      border-top: 1px solid var(--gray-100);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-quote {
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-quote:hover {
+      color: var(--accent-light);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .products-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+      }
+      .sidebar-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO COMPACT -->
+  <section class="hero-compact">
+    <div class="container">
+      <h2 class="lang-en">Product Center</h2>
+      <h2 class="lang-zh" style="display:none;">产品中心</h2>
+      <p class="lang-en">Discover high-specification materials, functional films, printing supplies and packaging machines.</p>
+      <p class="lang-zh" style="display:none;">发现高规格材料、多功能覆膜、印刷耗材及自动化包装机械设备。</p>
+    </div>
+  </section>
+
+  <!-- PRODUCTS LAYOUT -->
+  <div class="container">
+    <div class="products-container">
+      <!-- SIDEBAR FILTERS -->
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3 class="lang-en">Categories</h3>
+          <h3 class="lang-zh" style="display:none;">产品分类</h3>
+          <div class="filter-list" id="categoryFilters">
+            <div class="filter-item active" onclick="filterCategory('all')" id="cat-all">
+              <span class="lang-en">All Products</span>
+              <span class="lang-zh" style="display:none;">全部产品</span>
+              <span class="count" id="count-all">0</span>
+            </div>
+            <!-- Dynamic Category Filters Inject Here -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="products-main">
+        <div class="search-bar-wrap">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" id="searchInput" oninput="searchProducts()" data-placeholder-en="Search products by title, spec, or code..." data-placeholder-zh="输入产品名称、规格或编号进行搜索..." placeholder="Search products by title, spec, or code..." />
+        </div>
+
+        <div class="p-grid" id="productGrid">
+          <!-- Dynamic Products Inject Here -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const productsData = [{"id": "p-001", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPPPearlized Film", "title_cn": "BOPP珠光膜", "number": "AEC_BOPP_PEARLIZEDFILM_003", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/boppzhuguangmo-30.html"}, {"id": "p-002", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPPPlain Film", "title_cn": "BOPP平膜", "number": "AEC_BOPP_FILM_003", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopppingmo-28.html"}, {"id": "p-003", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPP Metallized Film", "title_cn": "BOPP 镀铝膜", "number": "AEC_BOPP_METALLIZEDFILM_009", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-dulvmo-50.html"}, {"id": "p-004", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPP Adhesive Tape Film", "title_cn": "BOPP 胶带膜", "number": "AEC_BOPP_TAPEFILM_001", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-jiaodaimo-24.html"}, {"id": "p-005", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPP Film", "title_cn": "双向拉伸聚丙烯薄膜", "number": "AEC_BOPP_FILM_001", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/shuangxianglashenjubinxibaomo-23.html"}, {"id": "p-006", "category": "bopp", "category_en": "BOPP Film", "category_cn": "双向拉伸聚丙烯薄膜", "title_en": "BOPP 锌铝电工 Film（银白色）", "title_cn": "BOPP 锌铝电工膜（银白色）", "number": "AEC_METALLIZED BOPP CAPACITOR FILM", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-xinlvdiangongmoyinbaise-107.html"}, {"id": "p-007", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "BOPET 扭结 Film", "title_cn": "BOPET 扭结膜", "number": "AEC_BOPET_METALLIZEDFILM_010", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopet-niujiemo-54.html"}, {"id": "p-008", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "BOPET  预涂 Film", "title_cn": "BOPET  预涂膜", "number": "AEC_BOPET Thermal Lamination Film", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopet--yutumo-105.html"}, {"id": "p-009", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "Metallized BOPET 扭结 Film", "title_cn": "镀铝BOPET 扭结膜", "number": "AEC_BOPET_METALLIZEDFILM_010", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/dulvbopet-niujiemo-55.html"}, {"id": "p-010", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "BOPET Film", "title_cn": "聚酯薄膜", "number": "AEC_BOPET ---008", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/ju-baomo-81.html"}, {"id": "p-011", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "BOPET厚 Film(开关 Film)", "title_cn": "BOPET厚膜(开关膜)", "number": "AEC_PET-003", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopethoumo-65.html"}, {"id": "p-012", "category": "bopet", "category_en": "BOPET Film", "category_cn": "双向拉伸聚酯薄膜", "title_en": "BOPET 电容 Film", "title_cn": "BOPET 电容膜", "number": "AEC_BOPET_METALLIZEDFILM_010", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopet-dianrongmo-53.html"}, {"id": "p-013", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "BOPP Super ClearAdhesive Tape", "title_cn": "BOPP 超透明胶带", "number": "AEC_TAPE_CLEAR", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-chatoumingjiaodai-96.html"}, {"id": "p-014", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "美纹纸Adhesive TapeJumbo Roll (Semi-finished)", "title_cn": "美纹纸胶带半成品", "number": "AEC_TAPE-MASKING", "desc_en": "Industrial grade high-tack adhesive tape. High tensile strength, excellent aging resistance, and strong adhesion. Made of premium BOPP film coated with water-based acrylic, solvent-based or rubber adhesive. Widely used for medium/heavy duty carton sealing.", "desc_cn": "工业级高粘性胶粘带。具有高拉伸强度、优异的耐老化性和强粘附力。采用优质BOPP薄膜，表面涂覆水性丙烯酸胶、溶剂型或橡胶型胶粘剂。广泛用于中重型纸箱封箱。", "url": "http://www.boppfilmsale.com/c_html_products/meiwenzhijiaodaibanchengpin-106.html"}, {"id": "p-015", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "BOPP Adhesive TapeJumbo Roll (Semi-finished)", "title_cn": "BOPP 胶带半成品", "number": "AEC_TAPE_1280_002", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/csxw1111-22.html"}, {"id": "p-016", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "Solvent AcrylicAdhesive Tape母卷", "title_cn": "油胶胶带母卷", "number": "AEC_Hot Melt Base OPP Adhesive Tape Jumbo Rolls", "desc_en": "Industrial grade high-tack adhesive tape. High tensile strength, excellent aging resistance, and strong adhesion. Made of premium BOPP film coated with water-based acrylic, solvent-based or rubber adhesive. Widely used for medium/heavy duty carton sealing.", "desc_cn": "工业级高粘性胶粘带。具有高拉伸强度、优异的耐老化性和强粘附力。采用优质BOPP薄膜，表面涂覆水性丙烯酸胶、溶剂型或橡胶型胶粘剂。广泛用于中重型纸箱封箱。", "url": "http://www.boppfilmsale.com/c_html_products/kailaxinggekbianzhikuanpishouhuan-13.html"}, {"id": "p-017", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "BOPP Finished Small Rolls", "title_cn": "BOPP 成品小卷", "number": "AEC_TAPE_1280_003", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/csxw11-20.html"}, {"id": "p-018", "category": "tape", "category_en": "Adhesive Tape & Glue", "category_cn": "胶粘带和胶水", "title_en": "BOPP Adhesive TapeJumbo Roll (Semi-finished)Production Line", "title_cn": "BOPP 胶带半成品生产线", "number": "AEC_MACHINE LINES", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-jiaodaibanchengpinshengchaxian-25.html"}, {"id": "p-019", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "BOPP 预涂 Film", "title_cn": "BOPP 预涂膜", "number": "AEC_BOPP_THERMALFILM_003", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-yutumo-32.html"}, {"id": "p-020", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "BOPA/BOPET 预涂 Film", "title_cn": "BOPA/BOPET 预涂膜", "number": "AEC_BOPP_THERMALFILM_003", "desc_en": "Premium BOPET polyester film featuring superior heat resistance, dimensional stability, electrical insulation, and chemical inertness. Perfect for composite packaging, hot stamping base, electrical capacitor cores, and photo lamination. Thickness range: 12-125 microns.", "desc_cn": "高档BOPET聚酯薄膜，具有优异的耐热性、尺寸稳定性、电绝缘性和化学惰性。非常适合用于复合包装、烫金基膜、电容器介质及照片覆膜。厚度范围：12-125微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopabopet-yutumo-33.html"}, {"id": "p-021", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "Metallized 镭射 涂布 Film", "title_cn": "镀铝镭射 涂布膜", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/dulvleishe-tubumo-373.html"}, {"id": "p-022", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "丙烯酸 涂布 Film", "title_cn": "丙烯酸 涂布膜", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/binxisuan-tubumo-372.html"}, {"id": "p-023", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "丙烯酸 涂布 Film", "title_cn": "丙烯酸 涂布膜", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/binxisuan-tubumo-371.html"}, {"id": "p-024", "category": "coating", "category_en": "Coated Film", "category_cn": "涂布膜", "title_en": "BOPA 涂布 Film PVDC", "title_cn": "BOPA 涂布膜 PVDC", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/bopa-tubumo-pvdc-370.html"}, {"id": "p-025", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "BOPS Film(窗口 Film,信封 Film)", "title_cn": "双向拉伸聚笨乙烯膜(窗口膜,信封膜)", "number": "AEC_BOPS WINDOW ENVELOP FILM", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_BOPS WINDOW ENVELOP FILM. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_BOPS WINDOW ENVELOP FILM。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/shuangxianglashenjubenyiximo-84.html"}, {"id": "p-026", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "CPP  Film", "title_cn": "CPP 膜", "number": "AEC_CPP_FILM_010", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_CPP_FILM_010. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_CPP_FILM_010。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/cpp-mo-56.html"}, {"id": "p-027", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "CPP Metallized Film", "title_cn": "CPP 镀铝膜", "number": "AEC_CPP_MFILM_010", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_CPP_MFILM_010. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_CPP_MFILM_010。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/cpp-dulvmo-57.html"}, {"id": "p-028", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "Plain CPP薄 Film", "title_cn": "普通CPP薄膜", "number": "AEC_CPP---005", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_CPP---005. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_CPP---005。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/putongcppbaomo-83.html"}, {"id": "p-029", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "BOPS 窗口 Film", "title_cn": "BOPS 窗口膜", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/bops-chuangkoumo-432.html"}, {"id": "p-030", "category": "specialty", "category_en": "Specialty Films", "category_cn": "特种薄膜 (BOPS/CPP/尼龙)", "title_en": "BOPS 窗口 Film", "title_cn": "BOPS 窗口膜", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/bops-chuangkoumo-431.html"}, {"id": "p-031", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "Semi-gloss Art Paper Self-Adhesive Label", "title_cn": "铜版纸半高光不干胶标签", "number": "Self-adhesive labels for Barcode printer", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/tongbanzhibangaoguangbuganjiaobiaoqian-200.html"}, {"id": "p-032", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "BOPP /bopet Tear Tape", "title_cn": "BOPP /bopet 拉线", "number": "AEC-CONSUMABLES-198", "desc_en": "High-performance Biaxial Oriented Polypropylene (BOPP) film. Features excellent clarity, high tensile strength, outstanding moisture barrier, and uniform thickness. Universally compatible with high-speed printing and lamination machinery. Regular thickness ranges from 12 to 50 microns.", "desc_cn": "高强度双向拉伸聚丙烯(BOPP)薄膜。具有极佳的透明度、高拉伸强度、出色的防潮性能和均匀的厚度。广泛兼容高速印刷和复合层压设备。常规厚度范围为12至50微米。", "url": "http://www.boppfilmsale.com/c_html_products/bopp-bopet-laxian-592.html"}, {"id": "p-033", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "Thermal Transfer Ribbon", "title_cn": "碳带", "number": "3919109900", "desc_en": "Thermal lamination film with base BOPP/BOPET and premium EVA hot-melt adhesive. Safe, energy-saving, and eco-friendly. Enhances paper color saturation, offers excellent moisture resistance and protective lamination for catalogs, magazines, and luxury boxes.", "desc_cn": "热覆膜预涂膜，基膜为BOPP/BOPET，表面涂有优质EVA热熔胶。安全、节能且环保。能增强纸张颜色饱和度，并为商品目录、杂志和高档包装盒提供出色的防潮及保护性能。", "url": "http://www.boppfilmsale.com/c_html_products/tandai-537.html"}, {"id": "p-034", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "Label", "title_cn": "标签", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/biaoqian-536.html"}, {"id": "p-035", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "Label", "title_cn": "标签", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/biaoqian-535.html"}, {"id": "p-036", "category": "consumables", "category_en": "Ribbons, Labels & Tear Tape", "category_cn": "碳带、标签与拉线", "title_en": "Label", "title_cn": "标签", "number": "3919109900", "desc_en": "High-quality industrial product with customized dimensions. Code: 3919109900. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：3919109900。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/biaoqian-534.html"}, {"id": "p-037", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "POF Shrink  Film", "title_cn": "POF 热收缩膜", "number": "AEC_POF--001", "desc_en": "Heavy-duty industrial shrink packaging machines and POF/PVC shrink films. High efficiency heating, adjustable conveyor speed, automatic constant temperature, and low noise. Provides clean, moisture-proof, and tamper-evident packaging for retail goods.", "desc_cn": "重型工业收缩包装机和POF/PVC收缩膜。高效率加热，可调节输送速度，自动恒温，噪音低。为零售商品提供干净、防潮且防拆的包装保护。", "url": "http://www.boppfilmsale.com/c_html_products/pof-reshousuomo-62.html"}, {"id": "p-038", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "PVC Cling  Film", "title_cn": "PVC 保鲜膜", "number": "AEC_PVC--001", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_PVC--001. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_PVC--001。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/pvc-baoxianmo-61.html"}, {"id": "p-039", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "PE Pallet Stretch Wrap  Film", "title_cn": "PE 托盘缠绕膜", "number": "AEC_PE_010", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_PE_010. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_PE_010。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/pe-tuopancharaomo-60.html"}, {"id": "p-040", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "聚乙烯Bubble Cushioning  Film", "title_cn": "聚乙烯气泡膜", "number": "AEC_PE ---008", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_PE ---008. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_PE ---008。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/juyixiqipaomo-72.html"}, {"id": "p-041", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "Stretch Wrap  Film", "title_cn": "缠绕膜", "number": "AEC_PE ---004", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_PE ---004. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_PE ---004。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/charaomo-71.html"}, {"id": "p-042", "category": "pe-pvc", "category_en": "PE/PVC/POF Film & Bags", "category_cn": "PE/PVC/POF 薄膜与袋", "title_en": "PVC Card", "title_cn": "PVC 卡片", "number": "AEC_PVC-0002", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_PVC-0002. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_PVC-0002。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/pvc-kapian-86.html"}, {"id": "p-043", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "48-64g Light Weight Coated (LWC) Paper", "title_cn": "48-64克轻量涂布纸", "number": "AEC_PAPER-LWC", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/48-64keqingliangtubuzhi-91.html"}, {"id": "p-044", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "LWC Paper", "title_cn": "轻涂纸", "number": "AEC_LWC PAPER", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/qingtuzhi-104.html"}, {"id": "p-045", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "70g Light Weight Coated (LWC) Paper", "title_cn": "70克轻量涂布纸", "number": "AEC_PAPER-70G LWC", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/70keqingliangtubuzhi-93.html"}, {"id": "p-046", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "办公用Woodfree Copy Paper", "title_cn": "办公用全木桨复印纸", "number": "AEC_COPY PAPER --001", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/bangongyongquanmujiangfuyinzhi-63.html"}, {"id": "p-047", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "US Standard Copy Paper", "title_cn": "美标复印纸", "number": "AEC_PAPER_COPY_001", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/meibiaofuyinzhi-27.html"}, {"id": "p-048", "category": "paper", "category_en": "Paper Products", "category_cn": "纸制品", "title_en": "Woodfree Copy Paper", "title_cn": "全木桨复印纸", "number": "AEC_PAPER ---003", "desc_en": "Premium grade paper product. Excellent smoothness, high opacity, and superb ink absorption. Perfect for commercial catalogs, offset color printing, copy tasks, and general office utilization.", "desc_cn": "优质级纸制品。平滑度好、不透明度高、吸墨性能好。非常适合商业目录、胶印彩色印刷、复印任务和一般办公使用。", "url": "http://www.boppfilmsale.com/c_html_products/quanmujiangfuyinzhi-66.html"}, {"id": "p-049", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "Slitting Machine和Rewinding Machine", "title_cn": "分切机和复卷机", "number": "AEC_machine ---005", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_machine ---005. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_machine ---005。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/fenqiejihefujuanji-82.html"}, {"id": "p-050", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "Coating Machine", "title_cn": "涂布机", "number": "AEC_machine ---004", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_machine ---004. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_machine ---004。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/tubuji-80.html"}, {"id": "p-051", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "Printing Machine", "title_cn": "印刷机", "number": "AEC_machine ---003", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_machine ---003. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_machine ---003。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/yinshuaji-78.html"}, {"id": "p-052", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "Packaging Machine Series", "title_cn": "包装机系列", "number": "AEC_machine ---001", "desc_en": "High-quality industrial product with customized dimensions. Code: AEC_machine ---001. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：AEC_machine ---001。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/baozhuangjixilie-74.html"}, {"id": "p-053", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "Shrink Packing Machine", "title_cn": "收缩机", "number": "AEC_ Shrinkage machines", "desc_en": "Heavy-duty industrial shrink packaging machines and POF/PVC shrink films. High efficiency heating, adjustable conveyor speed, automatic constant temperature, and low noise. Provides clean, moisture-proof, and tamper-evident packaging for retail goods.", "desc_cn": "重型工业收缩包装机和POF/PVC收缩膜。高效率加热，可调节输送速度，自动恒温，噪音低。为零售商品提供干净、防潮且防拆的包装保护。", "url": "http://www.boppfilmsale.com/c_html_products/shousuoji-133.html"}, {"id": "p-054", "category": "machinery", "category_en": "Packaging Machinery", "category_cn": "机器设备", "title_en": "塑料挤出淋 Film复合机组（(SDF-F 1300型淋 Film复合机配置)）", "title_cn": "塑料挤出淋膜复合机组（(SDF-F 1300型淋膜复合机配置)）", "number": "Model of SDF-F 1300 Plastic Extrusion Compound Uni", "desc_en": "High-quality industrial product with customized dimensions. Code: Model of SDF-F 1300 Plastic Extrusion Compound Uni. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：Model of SDF-F 1300 Plastic Extrusion Compound Uni。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/suliaojichulinmofuhejizusdf-f-1300xinglinmofuhejipeizhi-197.html"}, {"id": "p-055", "category": "solar", "category_en": "Solar Panels (PV)", "category_cn": "光伏太阳能板", "title_en": "72片Multi-Busbar PERCHalf-cell  PERC JAM72S30/MR", "title_cn": "72片多主栅PERC半片 PERC JAM72S30/MR", "number": "000556", "desc_en": "High-quality industrial product with customized dimensions. Code: 000556. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：000556。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/72pianduozhushanpercbanpian-perc-jam72s30mr-644.html"}, {"id": "p-056", "category": "solar", "category_en": "Solar Panels (PV)", "category_cn": "光伏太阳能板", "title_en": "72片Multi-Busbar PERCBifacial Double-Glass Half-cell  PERC JAM72D30/MB", "title_cn": "72片多主栅PERC双面双玻半片 PERC JAM72D30/MB", "number": "000556", "desc_en": "High-quality industrial product with customized dimensions. Code: 000556. Specs as per standard export parameters.", "desc_cn": "优质工业产品，支持尺寸定制。产品编号：000556。规格符合标准出口参数。", "url": "http://www.boppfilmsale.com/c_html_products/72pianduozhushanpercshuangmianshuangbobanpian-perc-jam72d30mb-643.html"}];
+    let activeCategory = 'all';
+
+    const categoryNames = {
+      'bopp': { en: 'BOPP Film', zh: 'BOPP 薄膜' },
+      'bopet': { en: 'BOPET Film', zh: '聚酯薄膜' },
+      'tape': { en: 'Adhesive Tapes', zh: '胶粘带与胶水' },
+      'coating': { en: 'Coated Films', zh: '涂布膜' },
+      'specialty': { en: 'Specialty Films', zh: '特种薄膜' },
+      'consumables': { en: 'Ribbons & Labels', zh: '碳带与标签' },
+      'pe-pvc': { en: 'PE/PVC/POF', zh: 'PE/PVC/POF' },
+      'paper': { en: 'Paper Products', zh: '纸制品' },
+      'machinery': { en: 'Machinery', zh: '机械设备' },
+      'solar': { en: 'Solar Panels', zh: '太阳能板' }
+    };
+
+    // Category counters
+    function initFilters() {
+      const counts = { all: productsData.length };
+      productsData.forEach(p => {
+        counts[p.category] = (counts[p.category] || 0) + 1;
+      });
+      
+      document.getElementById('count-all').innerText = counts.all;
+      
+      const filterContainer = document.getElementById('categoryFilters');
+      Object.keys(categoryNames).forEach(catId => {
+        if (counts[catId]) {
+          const item = document.createElement('div');
+          item.className = 'filter-item';
+          item.id = `cat-${catId}`;
+          item.onclick = () => filterCategory(catId);
+          item.innerHTML = `
+            <span class="lang-en">${categoryNames[catId].en}</span>
+            <span class="lang-zh" style="display:none;">${categoryNames[catId].zh}</span>
+            <span class="count">${counts[catId]}</span>
+          `;
+          filterContainer.appendChild(item);
+        }
+      });
+    }
+
+    // Get URL parameters
+    function handleUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('cat');
+      if (cat && categoryNames[cat]) {
+        filterCategory(cat);
+      } else {
+        renderProducts(productsData);
+      }
+    }
+
+    function filterCategory(catId) {
+      activeCategory = catId;
+      document.querySelectorAll('.filter-item').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById(`cat-${catId}`);
+      if (activeEl) activeEl.classList.add('active');
+      
+      applyFilters();
+    }
+
+    function searchProducts() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      let filtered = productsData;
+      
+      if (activeCategory !== 'all') {
+        filtered = filtered.filter(p => p.category === activeCategory);
+      }
+      
+      if (query) {
+        filtered = filtered.filter(p => {
+          return p.title_en.toLowerCase().includes(query) || 
+                 p.title_cn.toLowerCase().includes(query) || 
+                 p.number.toLowerCase().includes(query) ||
+                 p.desc_en.toLowerCase().includes(query) ||
+                 p.desc_cn.toLowerCase().includes(query);
+        });
+      }
+      
+      renderProducts(filtered);
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 50px; color: var(--gray-500)">
+            <p class="lang-en"><i class="fas fa-search" style="font-size:2rem; margin-bottom:10px"></i><br>No products match your filters.</p>
+            <p class="lang-zh" style="display:none;"><i class="fas fa-search" style="font-size:2rem; margin-bottom:10px"></i><br>未找到符合条件的商品。</p>
+          </div>
+        `;
+        return;
+      }
+      
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'p-card';
+        
+        let emoji = '🎞️';
+        if (p.category === 'machinery') emoji = '⚙️';
+        if (p.category === 'solar') emoji = '☀️';
+        if (p.category === 'consumables') emoji = '🖨️';
+        if (p.category === 'tape') emoji = '🏷️';
+        if (p.category === 'paper') emoji = '📄';
+        
+        card.innerHTML = `
+          <div class="p-img-box">
+            <span>${emoji}</span>
+            <span class="badge lang-en">${p.category_en}</span>
+            <span class="badge lang-zh" style="display:none;">${p.category_cn}</span>
+          </div>
+          <div class="p-body">
+            <h3 class="p-title lang-en">${p.title_en}</h3>
+            <h3 class="p-title lang-zh" style="display:none;">${p.title_cn}</h3>
+            <div class="p-code"><i class="fas fa-barcode"></i> Code: ${p.number}</div>
+            <p class="p-desc lang-en">${p.desc_en}</p>
+            <p class="p-desc lang-zh" style="display:none;">${p.desc_cn}</p>
+            <div class="p-action">
+              <button class="btn-quote" onclick="askQuote('${p.title_en}', '${p.number}')">
+                <span class="lang-en">Request Quote <i class="fas fa-arrow-right"></i></span>
+                <span class="lang-zh" style="display:none;">获取报价 <i class="fas fa-arrow-right"></i></span>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      
+      // Keep current language state
+      setLanguage(currentLang);
+    }
+
+    function askQuote(title, code) {
+      const subject = encodeURIComponent(`Product Inquiry - ${title} (Code: ${code})`);
+      const body = encodeURIComponent(`Hello AEC GROUP Sales Team,
+
+I am interested in your product:
+Product: ${title}
+Code: ${code}
+
+Please provide specifications and FOB pricing details.`);
+      window.location.href = `mailto:sale@boppfilmsale.com?subject=${subject}&body=${body}`;
+    }
+
+    // Init
+    initFilters();
+    handleUrlParams();
+  </script>
+</body>
+</html>
